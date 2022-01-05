@@ -11,7 +11,7 @@ router.route('/:userID')
   .get(UserController.getUser)
   .put(UserController.updateUser)
 
-  router.route('/upload')
+  router.route('/upload/:userID')
   .post(UserController.upLoad)
 
 
