@@ -11,5 +11,5 @@ router.route('/')
 router.route('/:restaurantID')
   .get(RestaurantController.getRes)
   .put(RestaurantController.updateRes)
-// router.route('/:restaurantID/:foodID').get(RestaurantController.getResByFoodID)
+router.route('/getbyfood/:foodID').get(RestaurantController.getByFoodID)
 module.exports = router;

@@ -11,8 +11,14 @@ router.route('/:userID')
   .get(UserController.getUser)
   .put(UserController.updateUser)
 
-  router.route('/upload/:userID')
+router.route('/upload/:userID')
   .post(UserController.upLoad)
+
+router.route('/checkexist/')
+  .post(UserController.checkExist)
+
+router.route('/:PhoneNumber')
+  .get(UserController.getUserByPhone)
 
 
   // .patch(UserController.updateUser)

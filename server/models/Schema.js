@@ -22,9 +22,9 @@ const UserSchema = new mongoose.Schema({
   Avatar: {
     type: String
   },
-  Role: {
-    User: { type: Boolean, },
-    Driver: { type: Boolean, }
+  isDriver: {
+    type: Boolean,
+    default: false,
   },
   address: {
     fullAddress: String,
@@ -34,50 +34,48 @@ const UserSchema = new mongoose.Schema({
   salt: {
     type: String
   },
-  hashed: {
-    type: String
-  }
 })
 
 const User = mongoose.model('User', UserSchema);
 
 const FoodSchema = new mongoose.Schema({
-      FoodID:
-      {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-      },
-      FoodName:
-      {
-        type: String,
-        required: true
-      },
-      Price:
-      {
-        type: Number,
-        required: true
-      },
-      Description: {
-        type: String,
-        required: true
-      },
-      Amount: {
-        type: Number,
-        default: 0
-      },
-      Image: {
-        type: String,
-        required: true
-      },
-      Space: {
-        type: Number,
-        default: 0
-      },
-      Minute: {
-        type: Number,
-        default: 0
-      },
+  FoodName:
+  {
+    type: String,
+    required: true,
+  },
+  Price:
+  {
+    type: Number,
+    required: true
+  },
+  Description: {
+    type: String,
+    required: true
+  },
+  Amount: {
+    type: Number,
+    default: 0
+  },
+  Image: {
+    type: String,
+    required: true
+  },
+  Space: {
+    type: Number,
+    default: 0
+  },
+  Minute: {
+    type: Number,
+    default: 0
+  },
+  restaurantID:{
+    type:String,
+    required:true
+  }
 })
+
+const Food = mongoose.model('Food', FoodSchema);
 
 const RestaurantSchema = new mongoose.Schema({
   Name: {
@@ -89,9 +87,6 @@ const RestaurantSchema = new mongoose.Schema({
   Closetime: {
     type: String
   },
-  Food: [
-    FoodSchema
-  ],
   Rate: {
     type: Number,
     default: 0
@@ -106,25 +101,23 @@ const RestaurantSchema = new mongoose.Schema({
     default: 0
   },
 })
+
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
 
 const BillingSchema = new mongoose.Schema({
 
   UserID: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     required: true
   },
   RestaurantID: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     required: true
   },
   DriverID: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     required: true
   },
-  Food: [
-    FoodSchema
-  ],
   Cash: {
     type: Number,
     required: true
@@ -139,7 +132,6 @@ const BillingSchema = new mongoose.Schema({
   },
 
 }
-
   , {
     timestamps: {
       createdAt: 'created_at',
@@ -148,4 +140,4 @@ const BillingSchema = new mongoose.Schema({
   })
 const Bill = mongoose.model('Bill', BillingSchema);
 
-module.exports = { User, Restaurant, Bill };
+module.exports = { User, Restaurant, Bill,Food };

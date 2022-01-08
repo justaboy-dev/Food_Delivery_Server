@@ -1,4 +1,4 @@
-const { Restaurant } = require('../models/Schema')
+const { Restaurant, Food } = require('../models/Schema')
 
 const CreateRes = async (req, res) => {
   try {
@@ -24,29 +24,25 @@ const getRes = async (req, res, next) => {
   next()
 }
 
-// const getResByFoodID = async (req, res, next) => {
-//   try {
-//     // console.log(req.params)
-//     const restaurantID = req.params.restaurantID
-//     // console.log(restaurantID)
-//     const foodID = req.params.foodID
-//     // console.log(foodID)
-//     const Res = await Restaurant.findById(restaurantID)
-//     // console.log(Res.Food)
-//     return res.status(200).json(Res.Food)
-//   } catch (err) {
-//     res.status(500).json({ error: err })
-//   }
-
-// }
+const getByFoodID = async (req, res, next) => {
+  try {
+    const {foodID} = req.params
+    const food = await Food.findById(foodID)
+    const restaurant = await Restaurant.findById(food.restaurantID)
+    return res.status(200).json( restaurant )
+  } catch (err) {
+    res.status(500).json({ error: err })
+  }
+  next()
+}
 const index = async (req, res) => {
     try{
-      const ress = await Restaurant.find({})
-    return res.status(200).json( ress )
+      const ress = await Restaurant.find()
+      return res.status(200).json( ress )
     }
     catch(err)
     {
-      return res.status(500).json( ress )
+      return res.status(500).json( err )
     }
 }
 
@@ -57,15 +53,16 @@ const updateRes = async (req, res) => {
     const newRestaurant = req.body
 
     const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
-  return res.status(200).json({ success: true })
+  return res.status(200).json({ success: result })
   } catch (err) {
     res.status(500).json({ error: err })
   }
 };
+
 module.exports = {
   index,
   updateRes,
   CreateRes,
   getRes,
-  // getResByFoodID 
+  getByFoodID 
 }

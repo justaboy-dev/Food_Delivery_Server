@@ -2,24 +2,25 @@ const { User } = require('../models/Schema')
 const crypto = require("crypto");
 
 const signUpAuth = async (PhoneNumber, Password) => {
-  const existingUser = await User.findOne({ PhoneNumber: PhoneNumber })
+  const existingUser = await User.findOne({ PhoneNumber })
   if (existingUser) {
-    throw new Error("PhoneNumber already existed");
+    throw new Error("Phone number already existed");
   }
   const user = {
     PhoneNumber: PhoneNumber
   };
   const { salt, hashed } = generatePassword(Password);
   user.salt = salt;
-  user.hashed = hashed;
+  user.Password = hashed;
   return user
 }
 const signInAuth = async (PhoneNumber, Password) => {
-  const existingUser = await User.findOne({ PhoneNumber: PhoneNumber })
+  const existingUser = await User.findOne({ PhoneNumber })
   if (!existingUser) {
-    return "PhoneNumber does not exist";
+    return "Phone number does not exist";
   }
-  if (!verifyPassword(Password, existingUser.salt, existingUser.hashed)) {
+  if (!verifyPassword(Password, existingUser.salt, existingUser.Password)) {
+    console.log(Password,existingUser.salt,existingUser.Password)
     return "Password is not correct!";
   }
   return true;
@@ -31,7 +32,7 @@ const updatePassword = async (PhoneNumber, Password) => {
   };
   const { salt, hashed } = generatePassword(Password);
   user.salt = salt;
-  user.hashed = hashed;
+  user.Password = hashed;
   return user
 }
 const generatePassword = (password) => {
