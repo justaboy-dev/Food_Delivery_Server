@@ -16,7 +16,6 @@ const getRes = async (req, res, next) => {
   try {
     const { restaurantID } = req.params
     const ress = await Restaurant.findById(restaurantID)
-    console.log(ress)
     return res.status(200).json( ress )
   } catch (err) {
     res.status(500).json({ error: err })

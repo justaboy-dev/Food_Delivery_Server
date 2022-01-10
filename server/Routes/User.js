@@ -14,10 +14,10 @@ router.route('/:userID')
 router.route('/upload/:userID')
   .post(UserController.upLoad)
 
-router.route('/checkexist/')
-  .post(UserController.checkExist)
+router.route('/checkexist/:PhoneNumber')
+  .get(UserController.checkExist)
 
-router.route('/:PhoneNumber')
+router.route('/getuserbyphone/:PhoneNumber')
   .get(UserController.getUserByPhone)
 
 

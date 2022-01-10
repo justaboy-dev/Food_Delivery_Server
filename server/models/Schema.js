@@ -116,12 +116,24 @@ const BillingSchema = new mongoose.Schema({
   },
   DriverID: {
     type: String,
-    required: true
   },
   Cash: {
     type: Number,
     required: true
   },
+  Food:
+  [
+    {
+      FoodID:{
+        type:String,
+        required:true
+      },
+      FoodAmount:{
+        type:Number,
+        default:1
+      }
+    }
+  ],
   Status: {
     type: String,
     required: true
@@ -132,12 +144,12 @@ const BillingSchema = new mongoose.Schema({
   },
 
 }
-  , {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
-    }
-  })
+, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
+})
 const Bill = mongoose.model('Bill', BillingSchema);
 
 module.exports = { User, Restaurant, Bill,Food };

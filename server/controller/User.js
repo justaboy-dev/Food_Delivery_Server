@@ -26,11 +26,11 @@ const getUser = async (req, res, next) => {
 
 const getUserByPhone = async (req, res, next) => {
   try {
-    const {PhoneNumber} = req.params
-    const user = await User.findOne(PhoneNumber)
+    const { PhoneNumber } = req.params
+    const user = await User.findOne({ PhoneNumber })
     return res.status(200).json(user)
   } catch (err) {
-    res.status(500).json({ error: err })
+    res.status(500)
   }
 }
 
@@ -65,7 +65,6 @@ const newUser = async (req, res, next) => {
     //   return res.status(201).json({ user: newUser })
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({ error: err })
   }
 }
@@ -89,7 +88,6 @@ const updateUser = async (req, res, next) => {
     if (!result) return res.status(403).json({success: false, message: "userID is alrady is use" } );
     return res.status(200).json({ success: true })
   } catch (err) {
-    console.log(err)
     res.status(500).json({ error: err })
   }
 }
@@ -101,7 +99,6 @@ const upLoad = async (req, res, next) => {
     res.status(400).json({ "message": "Upload fail" })
   }
   else {
-    console.log(Image)
     const user = await User.findById(userID);
     if (!user) {
       res.status(400).json({ "message": "User not found" })
@@ -126,7 +123,6 @@ const signUp = async (req, res, next) => {
   // console.log('found user', foundUser)
   // create a new user
   // const newUser = new User({ PhoneNumber, Password })
-  console.log(PhoneNumber)
   const user = await AuthController.signUpAuth(PhoneNumber, Password)
   const newUser = new User({
     PhoneNumber,
@@ -157,7 +153,6 @@ const signUp = async (req, res, next) => {
 const signIn = async (req, res, next) => {
   // console.log('call to signin')
   const { PhoneNumber, Password } = req.body
-  console.log(PhoneNumber, Password)
   const newUser = await AuthController.signInAuth(PhoneNumber, Password)
 
   const token = encodeToken(req._id)
@@ -178,16 +173,15 @@ const secret = async (req, res, next) => {
 }
 
 const checkExist = async (req,res,next) =>{
-  const { PhoneNumber } = req.body
+  const { PhoneNumber } = req.params
   const existingUser = await User.findOne( { PhoneNumber } )
-  console.log(existingUser)
   if(existingUser)
   {
-    res.status(403).json({success:false, message:"Phone number is already in use !"})
+    res.status(200).json({success:true, message:"Phone number is already in use !"})
   }
   else
   {
-    res.status(200).json({success:true})
+    res.status(200).json({success:false})
   }
 }
 
