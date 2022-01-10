@@ -11,7 +11,7 @@ const signUpAuth = async (PhoneNumber, Password) => {
   };
   const { salt, hashed } = generatePassword(Password);
   user.salt = salt;
-  user.Password = hashed;
+  user.hash = hashed;
   return user
 }
 const signInAuth = async (PhoneNumber, Password) => {
@@ -19,8 +19,8 @@ const signInAuth = async (PhoneNumber, Password) => {
   if (!existingUser) {
     return "Phone number does not exist";
   }
-  if (!verifyPassword(Password, existingUser.salt, existingUser.Password)) {
-    console.log(Password,existingUser.salt,existingUser.Password)
+  if (!verifyPassword(Password, existingUser.salt, existingUser.hash)) {
+    console.log(PhoneNumber,Password)
     return "Password is not correct!";
   }
   return true;

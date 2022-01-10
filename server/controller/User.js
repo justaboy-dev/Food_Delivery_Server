@@ -77,7 +77,7 @@ const updateUser = async (req, res, next) => {
     const newUser = {
       PhoneNumber,
       salt: user.salt,
-      Password: user.Password,
+      hash: user.hash,
       LastName,
       FirstName,
       address,
@@ -127,7 +127,7 @@ const signUp = async (req, res, next) => {
   const newUser = new User({
     PhoneNumber,
     salt: user.salt,
-    Password: user.Password,
+    hash: user.hash,
     LastName,
     FirstName,
     Avatar,
